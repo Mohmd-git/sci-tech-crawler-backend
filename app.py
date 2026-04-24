@@ -1,27 +1,18 @@
-from flask import Flask, request, jsonify
+import os
+import nltk
+from flask import Flask
 from flask_cors import CORS
 from pymongo import MongoClient
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sentence_transformers import SentenceTransformer
-from numpy.linalg import norm
-from collections import defaultdict
-import numpy as np
-import nltk
-from nltk.corpus import stopwords
-import string
-from bson import ObjectId
-import os
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse, parse_qs
 
-# --- Setup ---
 nltk.download("punkt", quiet=True)
 nltk.download("stopwords", quiet=True)
+nltk.download("punkt_tab", quiet=True)
 
 app = Flask(__name__)
 CORS(app)
-MONGO_URI = "mongodb+srv://mohammadalisshaikh_db_user:1Zi1t2zSEcIjJbLc@cluster0.6xqytt8.mongodb.net/knowledge_base?retryWrites=true&w=majority"
+
+MONGO_URI = os.environ.get("MONGO_URI")
 
 model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
@@ -30,7 +21,6 @@ db = client["knowledge_base"]
 collection = db["Summaries"]
 
 print("Connected to MongoDB")
-
 
 # -----------------------------
 # 🔥 SHORT FORM NORMALIZATION
