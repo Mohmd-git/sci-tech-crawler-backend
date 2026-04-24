@@ -1,8 +1,9 @@
-Flask
-flask_cors
+flask
+flask-cors
 pymongo[srv]
 scikit-learn
-sentence-transformers
 numpy
 nltk
+requests
+beautifulsoup4
 gunicorn
