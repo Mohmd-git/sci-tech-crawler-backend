@@ -147,6 +147,38 @@ def store_new_links(results):
 # TF-IDF RANKING (ONLY)
 # -----------------------------
 def tfidf_rank(query, results):
+    if not results:
+        return []
+
+    # Extract summaries safely
+    texts = []
+    valid_results = []
+
+    for r in results:
+        text = r.get("summary", "")
+        if text and text.strip():
+            texts.append(text)
+            valid_results.append(r)
+
+    # If nothing usable → return original results
+    if not texts:
+        return results
+
+    try:
+        vectorizer = TfidfVectorizer()
+        tfidf_matrix = vectorizer.fit_transform(texts)
+
+        query_vec = vectorizer.transform([query])
+        scores = (tfidf_matrix @ query_vec.T).toarray().flatten()
+
+        for i, r in enumerate(valid_results):
+            r["score"] = float(scores[i])
+
+        return sorted(valid_results, key=lambda x: x.get("score", 0), reverse=True)
+
+    except Exception as e:
+        print("TFIDF Error:", e)
+        return results
     texts = [r.get("summary","") for r in results]
 
     vectorizer = TfidfVectorizer()
