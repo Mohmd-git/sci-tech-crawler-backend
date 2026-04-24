@@ -21,8 +21,7 @@ nltk.download("stopwords", quiet=True)
 
 app = Flask(__name__)
 CORS(app)
-
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_URI = "mongodb+srv://mohammadalisshaikh_db_user:1Zi1t2zSEcIjJbLc@cluster0.6xqytt8.mongodb.net/knowledge_base?retryWrites=true&w=majority"
 
 model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
