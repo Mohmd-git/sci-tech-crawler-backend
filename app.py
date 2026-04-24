@@ -25,7 +25,14 @@ nltk.download("punkt_tab", quiet=True)
 # APP SETUP
 # -----------------------------
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:5173",
+            "https://sci-tech-crawler.vercel.app"
+        ]
+    }
+})
 
 # -----------------------------
 # DB CONNECTION
